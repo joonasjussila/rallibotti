@@ -1,0 +1,34 @@
+{
+  "name": "rallibotti",
+  "scripts": {
+    "start": "babel-node src/index.js",
+    "start:hot": "kotatsu start --es2015 src/index.js",
+    "test": "mocha --compilers js:babel-core/register",
+    "test:watch": "yarn test -- --watch"
+  },
+  "version": "1.0.0",
+  "description": "An IRC bot for bragging about your Rally skills.",
+  "main": "src/index.js",
+  "author": "Joonas Jussila",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.15.3",
+    "babel-cli": "^6.18.0",
+    "babel-core": "^6.21.0",
+    "babel-preset-es2015": "^6.18.0",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
+    "date-fns": "^1.25.0",
+    "irc": "^0.5.2",
+    "mocha": "^3.2.0"
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  },
+  "devDependencies": {
+    "axios-mock-adapter": "^1.7.1",
+    "kotatsu": "^0.14.0"
+  }
+}
