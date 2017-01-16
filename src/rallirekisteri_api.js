@@ -14,4 +14,8 @@ export default class RallirekisteriApi {
       time: time
     })
   }
+
+  getTimes() {
+    return this.axios.get(this.apiUrl + '/api/times')
+  }
 }

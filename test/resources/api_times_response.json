@@ -1,0 +1,15 @@
+[
+  {
+    "car": "80's BMW",
+    "date": "2017-01-16",
+    "id": "2017-01-16",
+    "times": [
+      {
+        "name": "joonas",
+        "time": "4:33.822",
+        "timestamp": "2017-01-16T09:24:29.120Z"
+      }
+    ],
+    "track": "Naarajärvi, Finland"
+  }
+]
