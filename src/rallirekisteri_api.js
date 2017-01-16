@@ -18,4 +18,8 @@ export default class RallirekisteriApi {
   getTimes() {
     return this.axios.get(this.apiUrl + '/api/times')
   }
+
+  getScores(resolution) {
+    return this.axios.get(this.apiUrl + '/api/scores?resolution=' + resolution)
+  }
 }

@@ -4,6 +4,7 @@ import chaiAsPromised from 'chai-as-promised';
 import axios from 'axios';
 import mockAdapter from 'axios-mock-adapter';
 import apiTimesResponse from './resources/api_times_response.json';
+import apiScoresResponse from './resources/api_scores_response.json';
 
 
 import bot from '../src/bot';
@@ -20,6 +21,7 @@ describe('Bot', () => {
   describe('time handler', () => {
     beforeEach(() => {
       mock.onPost('/api/addtime').reply(200, 'OK')
+      mock.onGet('/api/scores?resolution=day').reply(200, apiScoresResponse)
     })
 
     afterEach(() => {
@@ -48,6 +50,12 @@ describe('Bot', () => {
     it('should reply to messages that are a time', (done) => {
       expect(bot.msg(speaker, chan, '3:45.234', api))
         .to.eventually.have.property('reply').notify(done)
+    });
+
+    it('should contain standing in the reply on messages that are a time', (done) => {
+      expect(bot.msg(speaker, chan, '3:45.234', api))
+        .to.eventually.have.property('reply')
+        .and.contain('toisena').notify(done)
     });
 
     it('should reply to messages that are a time and prefixed with nick', (done) => {

@@ -1,5 +1,6 @@
 import { getNormalizedTime } from './time';
-import format from 'date-fns/format'
+import format from 'date-fns/format';
+import standingTexts from './standing_texts';
 
 function msg(from, to, message, api) {
   let trim = removePrefix(message)
@@ -20,10 +21,24 @@ function removePrefix(message) {
 function timeResponse(time, from, api) {
   let date = format(new Date(), 'YYYY-MM-DD')
   return api.addTime(date, from, time).then((response) => {
-    return {
-      reply: 'OK: ' + time,
-      apiResponse: response.data
-    }
+    return api.getScores('day').then((scores) => {
+      let racerIndex = scores.data.day[0].findIndex((elem) => {
+        return (elem.name === from)
+      })
+      if (racerIndex) {
+        let standing = scores.data.day[0].length - racerIndex
+        let text = standingTexts[standing]
+        return {
+          reply: 'OK: ' + time + ", olet " + text + ".",
+          apiResponse: response.data
+        }
+      } else {
+        return {
+          reply: 'OK: ' + time,
+          apiResponse: response.data
+        }
+      }
+    })
   })
 }
 
