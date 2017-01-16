@@ -7,6 +7,8 @@ function msg(from, to, message, api) {
     return timeResponse(getNormalizedTime(trim), from, api)
   } else if (isTrackCommand(trim)) {
     return trackResponse(api)
+  } else if (isCarCommand(trim)) {
+    return carResponse(api)
   }
   return Promise.resolve({})
 }
@@ -29,10 +31,22 @@ function isTrackCommand(trim) {
   return (trim == '!track')
 }
 
+function isCarCommand(trim) {
+  return (trim == '!car')
+}
+
 function trackResponse(api) {
   return api.getTimes().then((response) => {
     return {
       reply: response.data[0].track
+    }
+  })
+}
+
+function carResponse(api) {
+  return api.getTimes().then((response) => {
+    return {
+      reply: response.data[0].car
     }
   })
 }

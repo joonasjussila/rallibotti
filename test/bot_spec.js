@@ -84,13 +84,24 @@ describe('Bot', () => {
   });
 
   describe('info handler', () => {
+    afterEach(() => {
+      mock.reset();
+    })
+
     it('should return track with !track', (done) => {
       mock.onGet('/api/times').reply(200, apiTimesResponse)
       expect(bot.msg(speaker, chan, '!track', api))
         .to.eventually.have.property('reply')
         .and.equal('Naarajärvi, Finland')
         .notify(done)
+    })
 
+    it('should return car with !car', (done) => {
+      mock.onGet('/api/times').reply(200, apiTimesResponse)
+      expect(bot.msg(speaker, chan, '!car', api))
+        .to.eventually.have.property('reply')
+        .and.equal('80\'s BMW')
+        .notify(done)
     })
   })
 });
