@@ -12,7 +12,7 @@ function msg(from, to, message, api) {
     return carResponse(api)
   } else if (trim === '!best') {
     return bestResponse(api)
-  } else if (trim === '!worst') {
+  } else if (trim === '!worst' || trim === '!loser') {
     return worstResponse(api)
   }
   return Promise.resolve({})
