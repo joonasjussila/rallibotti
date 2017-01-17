@@ -111,5 +111,21 @@ describe('Bot', () => {
         .and.equal('80\'s BMW')
         .notify(done)
     })
+
+    it('should return best with !best', (done) => {
+      mock.onGet('/api/scores?resolution=day').reply(200, apiScoresResponse)
+      expect(bot.msg(speaker, chan, '!best', api))
+        .to.eventually.have.property('reply')
+        .and.equal('heikki')
+        .notify(done)
+    })
+
+    it('should return everyone who is not best with !worst', (done) => {
+      mock.onGet('/api/scores?resolution=day').reply(200, apiScoresResponse)
+      expect(bot.msg(speaker, chan, '!worst', api))
+        .to.eventually.have.property('reply')
+        .and.equal('Petrattavaa: inummila, miksaa, tommik, kristian, joudah, joonas')
+        .notify(done)
+    })
   })
 });

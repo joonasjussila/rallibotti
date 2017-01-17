@@ -6,10 +6,14 @@ function msg(from, to, message, api) {
   let trim = removePrefix(message)
   if (getNormalizedTime(trim)) {
     return timeResponse(getNormalizedTime(trim), from, api)
-  } else if (isTrackCommand(trim)) {
+  } else if (trim === '!track') {
     return trackResponse(api)
-  } else if (isCarCommand(trim)) {
+  } else if (trim === '!car') {
     return carResponse(api)
+  } else if (trim === '!best') {
+    return bestResponse(api)
+  } else if (trim === '!worst') {
+    return worstResponse(api)
   }
   return Promise.resolve({})
 }
@@ -42,14 +46,6 @@ function timeResponse(time, from, api) {
   })
 }
 
-function isTrackCommand(trim) {
-  return (trim == '!track')
-}
-
-function isCarCommand(trim) {
-  return (trim == '!car')
-}
-
 function trackResponse(api) {
   return api.getTimes().then((response) => {
     return {
@@ -62,6 +58,24 @@ function carResponse(api) {
   return api.getTimes().then((response) => {
     return {
       reply: response.data[0].car
+    }
+  })
+}
+
+function bestResponse(api) {
+  return api.getScores('day').then((response) => {
+    let list = response.data.day[0]
+    return {
+      reply: list[list.length - 1].name
+    }
+  })
+}
+
+function worstResponse(api) {
+  return api.getScores('day').then((response) => {
+    let list = response.data.day[0]
+    return {
+      reply: 'Petrattavaa: ' + list.slice(0, list.length - 1).map((time) => time.name).join(', ')
     }
   })
 }
