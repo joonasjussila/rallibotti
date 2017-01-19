@@ -127,5 +127,11 @@ describe('Bot', () => {
         .and.equal('Petrattavaa: inummila, miksaa, tommik, kristian, joudah, joonas')
         .notify(done)
     })
+
+    it('should reply when someone is feeling !sad', (done) => {
+      expect(bot.msg(speaker, chan, '!sad', api))
+        .to.eventually.have.property('reply')
+        .notify(done)
+    })
   })
 });

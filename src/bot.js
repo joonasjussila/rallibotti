@@ -14,6 +14,8 @@ function msg(from, to, message, api) {
     return bestResponse(api)
   } else if (trim === '!worst' || trim === '!loser') {
     return worstResponse(api)
+  } else if (trim === '!sad') {
+    return sadResponse(from)
   }
   return Promise.resolve({})
 }
@@ -77,6 +79,18 @@ function worstResponse(api) {
     return {
       reply: 'Petrattavaa: ' + list.slice(0, list.length - 1).map((time) => time.name).join(', ')
     }
+  })
+}
+
+function sadResponse(who) {
+  const replies = [
+    "Tell me how you’re feeling, I’ll probably understand how you feel more than you think.",
+    "Even if it doesn’t seem that way right now, this feeling won’t last forever.",
+    "Take your time, no-one is rushing you to feel better.",
+    "I’m still here for you and I’m not going anywhere."
+  ]
+  return Promise.resolve({
+    reply: who + ": " + replies[Math.floor(Math.random() * replies.length)]
   })
 }
 
