@@ -133,5 +133,29 @@ describe('Bot', () => {
         .to.eventually.have.property('reply')
         .notify(done)
     })
+
+    it('should return position with !position', (done) => {
+      mock.onGet('/api/scores?resolution=day').reply(200, apiScoresResponse)
+      expect(bot.msg(speaker, chan, '!position', api))
+        .to.eventually.have.property('reply')
+        .and.equal('joonas: Olet toisena.')
+        .notify(done)
+    })
+
+    it('should encourage competition if a racer has not posted a time and calls !position', (done) => {
+      mock.onGet('/api/scores?resolution=day').reply(200, apiScoresResponse)
+      expect(bot.msg('eiole', chan, '!position', api))
+        .to.eventually.have.property('reply')
+        .and.equal('eiole: Ei sijoitusta, ajamaan siittä.')
+        .notify(done)
+    })
+
+    it('should give daily standings with !standings', (done) => {
+      mock.onGet('/api/scores?resolution=day').reply(200, apiScoresResponse)
+      expect(bot.msg(speaker, chan, '!standings', api))
+        .to.eventually.have.property('reply')
+        .and.equal('Sijoitukset tänään: 1. heikki, 2. joonas, 3. joudah, 4. kristian, 5. tommik, 6. miksaa, 7. inummila')
+        .notify(done)
+    })
   })
 });

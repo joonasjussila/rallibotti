@@ -16,6 +16,10 @@ function msg(from, to, message, api) {
     return worstResponse(api)
   } else if (trim === '!sad') {
     return sadResponse(from)
+  } else if (trim === '!position') {
+    return positionResponse(from, api)
+  } else if (trim === '!standings') {
+    return standingsResponse(api)
   }
   return Promise.resolve({})
 }
@@ -73,6 +77,25 @@ function bestResponse(api) {
   })
 }
 
+function positionResponse(who, api) {
+  return api.getScores('day').then((response) => {
+    let list = response.data.day[0]
+    let racerIndex = list.findIndex((elem) => elem.name === who)
+    if (racerIndex >= 0) {
+      let position = list.length - racerIndex
+      let text = who + ': Olet ' + standingTexts[position] + '.'
+      return {
+        reply: text
+      }
+    } else {
+      return {
+        reply: who + ': Ei sijoitusta, ajamaan siittä.'
+      }
+    }
+  })
+
+}
+
 function worstResponse(api) {
   return api.getScores('day').then((response) => {
     let list = response.data.day[0]
@@ -81,6 +104,20 @@ function worstResponse(api) {
     }
   })
 }
+
+function standingsResponse(api) {
+  function indexToPosition(index) {
+    return index + 1
+  }
+  return api.getScores('day').then((response) => {
+    let list = [...response.data.day[0]].reverse()
+    return {
+      reply: 'Sijoitukset tänään: ' + list.map((time, index) => indexToPosition(index)
+        + '. ' + time.name).join(', ')
+    }
+  })
+}
+
 
 function sadResponse(who) {
   const replies = [
