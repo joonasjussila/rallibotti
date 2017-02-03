@@ -14,7 +14,7 @@ function msg(from, to, message, api) {
     return bestResponse(api)
   } else if (trim === '!worst' || trim === '!loser') {
     return worstResponse(api)
-  } else if (trim === '!sad') {
+  } else if (trim === '!sad' || trim === 'prkl') {
     return sadResponse(from)
   } else if (trim === '!position') {
     return positionResponse(from, api)
