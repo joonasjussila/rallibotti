@@ -16,6 +16,8 @@ function msg(from, to, message, api) {
     return worstResponse(api)
   } else if (trim === '!sad' || trim === 'prkl') {
     return sadResponse(from)
+  } else if (trim === 'PRKL') {
+    return sadResponse(from, true)
   } else if (trim === '!position') {
     return positionResponse(from, api)
   } else if (trim === '!standings') {
@@ -119,15 +121,19 @@ function standingsResponse(api) {
 }
 
 
-function sadResponse(who) {
+function sadResponse(who, capitalize) {
   const replies = [
     "Tell me how you’re feeling, I’ll probably understand how you feel more than you think.",
     "Even if it doesn’t seem that way right now, this feeling won’t last forever.",
     "Take your time, no-one is rushing you to feel better.",
     "I’m still here for you and I’m not going anywhere."
   ]
+  let reply = replies[Math.floor(Math.random() * replies.length)]
+  if (capitalize) {
+    reply = reply.toUpperCase()
+  }
   return Promise.resolve({
-    reply: who + ": " + replies[Math.floor(Math.random() * replies.length)]
+    reply: who + ": " + reply
   })
 }
 
